@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from system_stats import get_system_stats
+from app.system_stats import get_system_stats
 
 app = FastAPI(title="Ops Monitor API")
 
