@@ -14,7 +14,17 @@ from app.alerts import (
     generate_device_alerts
 )
 
-from app.discord_alerts import send_discord_alert
+from app.discord_alerts import (
+    send_discord_alert,
+    send_login_notification
+)
+
+from dotenv import load_dotenv
+
+load_dotenv()
+
+APP_USERNAME = os.getenv("APP_USERNAME")
+APP_PASSWORD = os.getenv("APP_PASSWORD")
 
 STATS_API_URL = "http://127.0.0.1:8000/stats"
 WEBSITE_API_URL = "http://127.0.0.1:8000/websites"
@@ -63,6 +73,30 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
+if "authenticated" not in st.session_state:
+    st.session_state.authenticated = False
+
+if not st.session_state.authenticated:
+    st.title("🔐 Ops Monitor Login")
+
+    username = st.text_input("Username")
+    password = st.text_input("Password", type="password")
+
+    if st.button("Login"):
+        if username == APP_USERNAME and password == APP_PASSWORD:
+            st.session_state.authenticated = True
+            send_login_notification(username)
+            st.rerun()
+        else:
+            st.error("Invalid username or password")
+
+    st.stop()
+
+with st.sidebar:
+    if st.button("Logout"):
+        st.session_state.authenticated = False
+        st.rerun()
 
 st.title("🖥️ Ops Monitor")
 st.caption("Real-time infrastructure monitoring, uptime checks and operational alerts.")
