@@ -5,6 +5,7 @@ import streamlit as st
 import plotly.express as px
 
 API_URL = "http://127.0.0.1:8000/stats"
+WEBSITE_API_URL = "http://127.0.0.1:8000/websites"
 
 st.set_page_config(
     page_title="Ops Monitor Dashboard",
@@ -22,6 +23,14 @@ def fetch_stats():
         return response.json()
     except requests.exceptions.RequestException:
         return None
+
+def fetch_websites():
+    try:
+        response = requests.get(WEBSITE_API_URL, timeout=3)
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.RequestException:
+        return []
 
 if "history" not in st.session_state:
     st.session_state.history = []
@@ -82,6 +91,22 @@ st.divider()
 
 st.subheader("Raw Monitoring Data")
 st.dataframe(df, use_container_width=True)
+
+st.divider()
+
+st.subheader("Website Monitoring")
+
+website_data = fetch_websites()
+
+if website_data:
+    website_df = pd.DataFrame(website_data)
+
+    st.dataframe(
+        website_df,
+        use_container_width=True
+    )
+else:
+    st.warning("No website monitoring data available.")
 
 time.sleep(5)
 st.rerun()
