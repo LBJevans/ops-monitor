@@ -15,6 +15,7 @@ from app.alerts import (
 
 STATS_API_URL = "http://127.0.0.1:8000/stats"
 WEBSITE_API_URL = "http://127.0.0.1:8000/websites"
+DEVICE_API_URL = "http://127.0.0.1:8000/devices"
 
 SYSTEM_LOG_FILE = "data/system_metrics.csv"
 WEBSITE_LOG_FILE = "data/website_metrics.csv"
@@ -84,6 +85,13 @@ def load_system_history():
         return pd.read_csv(SYSTEM_LOG_FILE)
     return pd.DataFrame()
 
+def fetch_devices():
+    try:
+        response = requests.get(DEVICE_API_URL, timeout=3)
+        response.raise_for_status()
+        return response.json()
+    except requests.exceptions.RequestException:
+        return []
 
 def load_website_history():
     if os.path.exists(WEBSITE_LOG_FILE):
@@ -92,6 +100,7 @@ def load_website_history():
 
 stats = fetch_stats()
 website_data = fetch_websites()
+device_data = fetch_devices()
 
 if stats is None:
     st.error("API is not running. Start the FastAPI server first.")
@@ -189,6 +198,20 @@ if not website_df.empty:
     )
 else:
     st.warning("No uptime data available yet.")
+
+st.divider()
+
+st.subheader("Device Monitoring")
+
+if device_data:
+    device_df = pd.DataFrame(device_data)
+
+    st.dataframe(
+        device_df,
+        use_container_width=True
+    )
+else:
+    st.warning("No device monitoring data available.")
 
 st.subheader("Website Response Time History")
 

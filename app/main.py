@@ -1,7 +1,9 @@
 from fastapi import FastAPI
+
+from app.data_logger import log_system_metrics, log_website_metrics
+from app.device_monitor import check_devices
 from app.system_stats import get_system_stats
 from app.website_monitor import check_websites
-from app.data_logger import log_system_metrics, log_website_metrics
 
 app = FastAPI(title="Ops Monitor API")
 
@@ -20,3 +22,7 @@ def websites():
     website_results = check_websites()
     log_website_metrics(website_results)
     return website_results
+
+@app.get("/devices")
+def devices():
+    return check_devices()
