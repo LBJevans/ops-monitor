@@ -10,7 +10,8 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 from app.alerts import (
     generate_system_alerts,
-    generate_website_alerts
+    generate_website_alerts,
+    generate_device_alerts
 )
 
 STATS_API_URL = "http://127.0.0.1:8000/stats"
@@ -114,8 +115,9 @@ latest = stats
 
 system_alerts = generate_system_alerts(stats)
 website_alerts = generate_website_alerts(website_data)
+device_alerts = generate_device_alerts(device_data)
 
-all_alerts = system_alerts + website_alerts
+all_alerts = system_alerts + website_alerts + device_alerts
 
 col1, col2, col3 = st.columns(3)
 

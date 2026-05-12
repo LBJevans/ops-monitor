@@ -39,3 +39,12 @@ def generate_website_alerts(websites):
             alerts.append(f"🚨 Website Offline: {website['website']}")
 
     return alerts
+
+def generate_device_alerts(devices):
+    alerts = []
+
+    for device in devices:
+        if device["status"] == "OFFLINE":
+            alerts.append(f"🚨 Device Offline: {device['device']} ({device['host']})")
+
+    return alerts
