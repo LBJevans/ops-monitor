@@ -174,6 +174,22 @@ else:
 
 st.divider()
 
+st.subheader("Website Uptime Summary")
+
+if not website_df.empty:
+    uptime_summary = (
+        website_df.groupby("website")["status"]
+        .apply(lambda x: round((x == "ONLINE").mean() * 100, 2))
+        .reset_index(name="uptime_percent")
+    )
+
+    st.dataframe(
+        uptime_summary,
+        use_container_width=True
+    )
+else:
+    st.warning("No uptime data available yet.")
+
 st.subheader("Website Response Time History")
 
 if not website_df.empty:
