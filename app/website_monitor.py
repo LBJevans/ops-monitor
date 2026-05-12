@@ -1,16 +1,26 @@
-import requests
+import json
+import os
 from datetime import datetime
 
-WEBSITES = [
-    "https://google.com",
-    "https://github.com",
-    "https://stackoverflow.com"
-]
+import requests
+
+CONFIG_FILE = "config/monitored_websites.json"
+
+def load_websites():
+    if not os.path.exists(CONFIG_FILE):
+        return []
+
+    with open(CONFIG_FILE, "r", encoding="utf-8") as file:
+        config = json.load(file)
+
+    return config.get("websites", [])
 
 def check_websites():
     results = []
 
-    for website in WEBSITES:
+    websites = load_websites()
+
+    for website in websites:
         try:
             response = requests.get(website, timeout=5)
 
