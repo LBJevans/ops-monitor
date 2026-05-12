@@ -1,11 +1,15 @@
+import os
 import time
 import requests
 import pandas as pd
 import streamlit as st
 import plotly.express as px
 
-API_URL = "http://127.0.0.1:8000/stats"
+STATS_API_URL = "http://127.0.0.1:8000/stats"
 WEBSITE_API_URL = "http://127.0.0.1:8000/websites"
+
+SYSTEM_LOG_FILE = "data/system_metrics.csv"
+WEBSITE_LOG_FILE = "data/website_metrics.csv"
 
 st.set_page_config(
     page_title="Ops Monitor Dashboard",
@@ -14,11 +18,11 @@ st.set_page_config(
 )
 
 st.title("📊 Ops Monitor Dashboard")
-st.caption("Lightweight IT operations and infrastructure monitoring dashboard.")
+st.caption("Real-time IT operations monitoring with historical logging.")
 
 def fetch_stats():
     try:
-        response = requests.get(API_URL, timeout=3)
+        response = requests.get(STATS_API_URL, timeout=3)
         response.raise_for_status()
         return response.json()
     except requests.exceptions.RequestException:
@@ -32,21 +36,29 @@ def fetch_websites():
     except requests.exceptions.RequestException:
         return []
 
-if "history" not in st.session_state:
-    st.session_state.history = []
+def load_system_history():
+    if os.path.exists(SYSTEM_LOG_FILE):
+        return pd.read_csv(SYSTEM_LOG_FILE)
+    return pd.DataFrame()
+
+
+def load_website_history():
+    if os.path.exists(WEBSITE_LOG_FILE):
+        return pd.read_csv(WEBSITE_LOG_FILE)
+    return pd.DataFrame()
 
 stats = fetch_stats()
+website_data = fetch_websites()
 
 if stats is None:
     st.error("API is not running. Start the FastAPI server first.")
-    st.code("cd app\nuvicorn main:app --reload", language="powershell")
+    st.code("uvicorn app.main:app --reload", language="powershell")
     st.stop()
 
-st.session_state.history.append(stats)
+system_df = load_system_history()
+website_df = load_website_history()
 
-df = pd.DataFrame(st.session_state.history)
-
-latest = df.iloc[-1]
+latest = stats
 
 col1, col2, col3 = st.columns(3)
 
@@ -61,52 +73,69 @@ with col3:
 
 st.divider()
 
-st.subheader("System Usage Over Time")
+st.subheader("System Usage History")
 
-cpu_chart = px.line(
-    df,
-    x="timestamp",
-    y="cpu_percent",
-    title="CPU Usage Over Time"
-)
-st.plotly_chart(cpu_chart, use_container_width=True)
+if not system_df.empty:
+    cpu_chart = px.line(
+        system_df,
+        x="timestamp",
+        y="cpu_percent",
+        title="CPU Usage Over Time"
+    )
+    st.plotly_chart(cpu_chart, use_container_width=True)
 
-memory_chart = px.line(
-    df,
-    x="timestamp",
-    y="memory_percent",
-    title="Memory Usage Over Time"
-)
-st.plotly_chart(memory_chart, use_container_width=True)
+    memory_chart = px.line(
+        system_df,
+        x="timestamp",
+        y="memory_percent",
+        title="Memory Usage Over Time"
+    )
+    st.plotly_chart(memory_chart, use_container_width=True)
 
-disk_chart = px.line(
-    df,
-    x="timestamp",
-    y="disk_percent",
-    title="Disk Usage Over Time"
-)
-st.plotly_chart(disk_chart, use_container_width=True)
-
-st.divider()
-
-st.subheader("Raw Monitoring Data")
-st.dataframe(df, use_container_width=True)
+    disk_chart = px.line(
+        system_df,
+        x="timestamp",
+        y="disk_percent",
+        title="Disk Usage Over Time"
+    )
+    st.plotly_chart(disk_chart, use_container_width=True)
+else:
+    st.warning("No system history available yet.")
 
 st.divider()
 
 st.subheader("Website Monitoring")
 
-website_data = fetch_websites()
-
 if website_data:
-    website_df = pd.DataFrame(website_data)
+    current_website_df = pd.DataFrame(website_data)
 
     st.dataframe(
-        website_df,
+        current_website_df,
         use_container_width=True
     )
 else:
     st.warning("No website monitoring data available.")
+
+st.divider()
+
+st.subheader("Website Response Time History")
+
+if not website_df.empty:
+    response_chart = px.line(
+        website_df,
+        x="timestamp",
+        y="response_time_ms",
+        color="website",
+        title="Website Response Time Over Time"
+    )
+    st.plotly_chart(response_chart, use_container_width=True)
+
+    st.dataframe(
+        website_df.tail(50),
+        use_container_width=True
+    )
+else:
+    st.warning("No website history available yet.")
 
 time.sleep(5)
 st.rerun()
