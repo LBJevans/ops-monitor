@@ -1,4 +1,5 @@
 Ops Monitor
+Real-Time Infrastructure Monitoring and Operational Analytics Platform
 
 A lightweight IT operations monitoring dashboard built with Python, FastAPI and Streamlit.
 
@@ -160,6 +161,12 @@ Device Monitoring
 - Latency monitoring
 - Multi-device monitoring support
 
+SYSTEM DASHBOARD
+
+![Monitoring Tables](assets/OPS-MONITOR-MONITORING-TABLES.png)
+
+![Monitoring Graphs](assets/OPS-MONITOR-GRAPHS.png)
+
 Alerting
 
 - High CPU usage alerts
@@ -170,6 +177,12 @@ Alerting
 - Discord webhook notifications
 - Login notifications
 
+ALERTING SYSTEM
+
+![Discord Notifications](assets/OPS-MONITOR-DISCORD.png)
+
+![Alert System](assets/OPS-MONITOR-ALERTS.png)
+
 DASHBOARD FEATURES
 
 - Real-time metric updates
@@ -179,6 +192,11 @@ DASHBOARD FEATURES
 - Alert display system
 - Persistent CSV-backed history
 - Login authentication
+
+AUTHENTICATION
+
+![Login Screen](assets/OPS-MONITOR-LOGIN.png)
+
 - Discord-integrated notifications
 
 EXAMPLE TECHNOLOGIES DEMONSTRATED

@@ -2,6 +2,7 @@
   "websites": [
     "https://google.com",
     "https://github.com",
-    "https://stackoverflow.com"
+    "https://stackoverflow.com",
+    "https://internal-api.ops-monitor-demo.local"
   ]
 }
