@@ -15,9 +15,15 @@ FEATURES
 - Real-time disk usage monitoring
 - Website uptime monitoring
 - Website response time tracking
+- Multi-device network monitoring
 - Historical CSV logging
 - Interactive Streamlit dashboard
-- Active alert system
+- Configurable alert thresholds
+- Discord alert notifications
+- Discord login notifications
+- Environment variable configuration
+- Dashboard authentication system
+- Docker container support
 - FastAPI backend API
 - Persistent monitoring history
 
@@ -48,18 +54,29 @@ PROJECT STRUCTURE
 ops-monitor/
 
 ├── app/
-│ ├── alerts.py
-│ ├── data_logger.py
-│ ├── main.py
-│ ├── monitor.py
-│ ├── system_stats.py
-│ └── website_monitor.py
+│   ├── alerts.py
+│   ├── data_logger.py
+│   ├── device_monitor.py
+│   ├── discord_alerts.py
+│   ├── main.py
+│   ├── monitor.py
+│   ├── system_stats.py
+│   └── website_monitor.py
+│
+├── config/
+│   ├── alert_thresholds.json
+│   ├── monitored_devices.json
+│   └── monitored_websites.json
 │
 ├── dashboard/
-│ └── dashboard.py
+│   └── dashboard.py
 │
 ├── data/
 ├── logs/
+├── .env
+├── .dockerignore
+├── docker-compose.yml
+├── Dockerfile
 ├── README.md
 ├── requirements.txt
 └── .gitignore
@@ -84,6 +101,14 @@ venv\Scripts\activate
 
 pip install -r requirements.txt
 
+5. Configure Environment Variables
+
+Create a .env file in the project root:
+
+DISCORD_WEBHOOK_URL=your_discord_webhook
+APP_USERNAME=***
+APP_PASSWORD=***
+
 RUNNING THE APPLICATION
 
 Start the FastAPI Backend
@@ -96,11 +121,24 @@ Open a second terminal:
 
 streamlit run dashboard/dashboard.py
 
+DOCKER SUPPORT
+
+Run the application using Docker:
+
+docker compose up --build
+
+Dashboard:
+http://localhost:8501
+
+API:
+http://localhost:8000
+
 API ENDPOINTS
 
 / -> API health check
 /stats -> Returns live system metrics
 /websites -> Returns website uptime and response times
+/devices -> Returns monitored device status and latency
 
 CURRENT MONITORING CAPABILITIES
 
@@ -116,25 +154,42 @@ Website Monitoring
 - HTTP response codes
 - Response time measurements
 
+Device Monitoring
+
+- Device/network availability checks
+- Latency monitoring
+- Multi-device monitoring support
+
 Alerting
 
 - High CPU usage alerts
 - High memory usage alerts
 - High disk usage alerts
 - Offline website alerts
+- Offline device alerts
+- Discord webhook notifications
+- Login notifications
 
 DASHBOARD FEATURES
 
 - Real-time metric updates
 - Historical monitoring charts
 - Website monitoring table
+- Device monitoring table
 - Alert display system
 - Persistent CSV-backed history
+- Login authentication
+- Discord-integrated notifications
 
 EXAMPLE TECHNOLOGIES DEMONSTRATED
 
 - REST API development
 - Infrastructure monitoring
+- Network/device monitoring
+- Docker containerisation
+- Discord webhook integrations
+- Authentication systems
+- Environment variable management
 - Data logging
 - Real-time dashboard development
 - Operational alerting systems
@@ -144,14 +199,16 @@ EXAMPLE TECHNOLOGIES DEMONSTRATED
 FUTURE IMPROVEMENTS
 
 - SQLite or PostgreSQL database support
-- Docker deployment
-- Authentication system
-- Email or Discord notifications
-- Network device monitoring
-- Historical uptime analytics
-- Configurable monitoring settings
-- Background monitoring workers
+- Role-based authentication
+- Email notifications
+- SSL/HTTPS support
+- Advanced analytics dashboards
+- Historical uptime percentage reporting
 - Cloud deployment
+- Kubernetes deployment
+- Monitoring agent support
+- Centralised logging
+- Mobile-friendly dashboard
 
 PROJECT PURPOSE
 
@@ -159,8 +216,11 @@ This project was built as part of a personal portfolio to demonstrate practical 
 
 - IT operations
 - Infrastructure monitoring
+- Network monitoring
 - Backend development
 - Dashboard development
+- Docker containerisation
+- Authentication systems
 - Operational analytics
 - Alerting systems
 - Python application architecture
