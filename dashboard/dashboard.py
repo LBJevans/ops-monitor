@@ -14,6 +14,8 @@ from app.alerts import (
     generate_device_alerts
 )
 
+from app.discord_alerts import send_discord_alert
+
 STATS_API_URL = "http://127.0.0.1:8000/stats"
 WEBSITE_API_URL = "http://127.0.0.1:8000/websites"
 DEVICE_API_URL = "http://127.0.0.1:8000/devices"
@@ -135,6 +137,7 @@ st.subheader("Active Alerts")
 if all_alerts:
     for alert in all_alerts:
         st.error(alert)
+        send_discord_alert(alert)
 else:
     st.success("✅ No active alerts")
 
