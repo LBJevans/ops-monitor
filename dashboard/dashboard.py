@@ -25,8 +25,43 @@ st.set_page_config(
     layout="wide"
 )
 
-st.title("📊 Ops Monitor Dashboard")
-st.caption("Real-time IT operations monitoring with historical logging.")
+st.markdown(
+    """
+    <style>
+    .main {
+        background-color: #0e1117;
+    }
+
+    .block-container {
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+    }
+
+    h1, h2, h3 {
+        color: #f5f5f5;
+    }
+
+    .stMetric {
+        background-color: #161b22;
+        padding: 1rem;
+        border-radius: 12px;
+        border: 1px solid #30363d;
+    }
+
+    .stDataFrame {
+        border-radius: 12px;
+    }
+
+    div[data-testid="stAlert"] {
+        border-radius: 12px;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+st.title("🖥️ Ops Monitor")
+st.caption("Real-time infrastructure monitoring, uptime checks and operational alerts.")
 
 def fetch_stats():
     try:
