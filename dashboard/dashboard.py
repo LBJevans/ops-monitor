@@ -1,9 +1,17 @@
 import os
+import sys
 import time
 import requests
 import pandas as pd
 import streamlit as st
 import plotly.express as px
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+from app.alerts import (
+    generate_system_alerts,
+    generate_website_alerts
+)
 
 STATS_API_URL = "http://127.0.0.1:8000/stats"
 WEBSITE_API_URL = "http://127.0.0.1:8000/websites"
@@ -60,6 +68,11 @@ website_df = load_website_history()
 
 latest = stats
 
+system_alerts = generate_system_alerts(stats)
+website_alerts = generate_website_alerts(website_data)
+
+all_alerts = system_alerts + website_alerts
+
 col1, col2, col3 = st.columns(3)
 
 with col1:
@@ -70,6 +83,14 @@ with col2:
 
 with col3:
     st.metric("Disk Usage", f"{latest['disk_percent']}%")
+
+st.subheader("Active Alerts")
+
+if all_alerts:
+    for alert in all_alerts:
+        st.error(alert)
+else:
+    st.success("✅ No active alerts")
 
 st.divider()
 
