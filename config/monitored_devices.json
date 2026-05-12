@@ -11,10 +11,6 @@
     {
       "name": "Localhost",
       "host": "127.0.0.1"
-    },
-    {
-      "name": "Production Database Server",
-      "host": "192.0.2.123"
     }
   ]
 }
