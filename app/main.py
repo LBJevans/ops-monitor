@@ -11,6 +11,10 @@ app = FastAPI(title="Ops Monitor API")
 def root():
     return {"message": "Ops Monitor API Running"}
 
+@app.get("/health")
+def health_check():
+    return {"status": "healthy"}
+
 @app.get("/stats")
 def stats():
     system_stats = get_system_stats()

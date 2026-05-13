@@ -1,14 +1,14 @@
 Ops Monitor
 Real-Time Infrastructure Monitoring and Operational Analytics Platform
 
-A lightweight IT operations monitoring dashboard built with Python, FastAPI and Streamlit.
-
+A lightweight infrastructure monitoring and operational analytics platform built with Python, FastAPI and Streamlit.
+--------------------------------------------------------------------------------
 OVERVIEW
 
 Ops Monitor is a small infrastructure monitoring project designed to track system health, website uptime and operational metrics in real time.
 
 The application collects CPU, memory and disk usage metrics, checks website availability, logs historical monitoring data to CSV files and displays active alerts through an interactive dashboard.
-
+--------------------------------------------------------------------------------
 FEATURES
 
 - Real-time CPU monitoring
@@ -27,7 +27,7 @@ FEATURES
 - Docker container support
 - FastAPI backend API
 - Persistent monitoring history
-
+--------------------------------------------------------------------------------
 TECH STACK
 
 Backend
@@ -49,7 +49,7 @@ Data Handling
 
 - Pandas
 - CSV logging
-
+--------------------------------------------------------------------------------
 PROJECT STRUCTURE
 
 ops-monitor/
@@ -81,7 +81,7 @@ ops-monitor/
 ├── README.md
 ├── requirements.txt
 └── .gitignore
-
+--------------------------------------------------------------------------------
 HOW TO RUN
 
 1. Clone the Repository
@@ -109,7 +109,7 @@ Create a .env file in the project root:
 DISCORD_WEBHOOK_URL=your_discord_webhook
 APP_USERNAME=***
 APP_PASSWORD=***
-
+--------------------------------------------------------------------------------
 RUNNING THE APPLICATION
 
 Start the FastAPI Backend
@@ -133,14 +133,14 @@ http://localhost:8501
 
 API:
 http://localhost:8000
-
+--------------------------------------------------------------------------------
 API ENDPOINTS
 
 / -> API health check
 /stats -> Returns live system metrics
 /websites -> Returns website uptime and response times
 /devices -> Returns monitored device status and latency
-
+--------------------------------------------------------------------------------
 CURRENT MONITORING CAPABILITIES
 
 System Monitoring
@@ -182,7 +182,7 @@ ALERTING SYSTEM
 ![Discord Notifications](assets/OPS-MONITOR-DISCORD.png)
 
 ![Alert System](assets/OPS-MONITOR-ALERTS.png)
-
+--------------------------------------------------------------------------------
 DASHBOARD FEATURES
 
 - Real-time metric updates
@@ -192,13 +192,13 @@ DASHBOARD FEATURES
 - Alert display system
 - Persistent CSV-backed history
 - Login authentication
+- Discord-integrated notifications
 
 AUTHENTICATION
 
 ![Login Screen](assets/OPS-MONITOR-LOGIN.png)
 
-- Discord-integrated notifications
-
+--------------------------------------------------------------------------------
 EXAMPLE TECHNOLOGIES DEMONSTRATED
 
 - REST API development
@@ -213,7 +213,7 @@ EXAMPLE TECHNOLOGIES DEMONSTRATED
 - Operational alerting systems
 - Data visualisation
 - Python project architecture
-
+--------------------------------------------------------------------------------
 FUTURE IMPROVEMENTS
 
 - SQLite or PostgreSQL database support
@@ -227,7 +227,7 @@ FUTURE IMPROVEMENTS
 - Monitoring agent support
 - Centralised logging
 - Mobile-friendly dashboard
-
+--------------------------------------------------------------------------------
 PROJECT PURPOSE
 
 This project was built as part of a personal portfolio to demonstrate practical skills in:
@@ -242,10 +242,19 @@ This project was built as part of a personal portfolio to demonstrate practical 
 - Operational analytics
 - Alerting systems
 - Python application architecture
-
+--------------------------------------------------------------------------------
 AUTHOR
 
 Lachlan Evans
 
 GitHub:
 https://github.com/LBJevans
+
+LinkedIn:
+https://www.linkedin.com/in/lachlan-evans-718ba1185/
+
+SECURITY NOTE
+
+This project is designed for portfolio and educational purposes.
+
+Authentication credentials and Discord webhook URLs are managed through environment variables and excluded from source control using .gitignore.

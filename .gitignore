@@ -217,6 +217,10 @@ __marimo__/
 # Streamlit
 .streamlit/secrets.toml
 
-data/*.csv
+data/
 
 .env
+
+*.pyc
+
+logs/
